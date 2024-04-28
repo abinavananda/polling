@@ -1,29 +1,36 @@
 {% extends 'base.html' %}
-{% block content %}
 
+{% block content %}
 
 <h3 style = "margin-bottom: 20px"><strong>Pick Your Choice</strong></h3>
 
 <h4>{{question.question}}</h4>
-
-<form method="POST" action=" {% url 'result' question.id %} ">
-    {% csrf_token %}
-<ul class="list-group" style="margin:0px">
-    {% for option in options %}
-    
-    <label>
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="radio" name = 'choice' value="{{option.id}}" aria-label="...">
-            {{option.option}}
-          </li>
-    </label>
-    {% endfor %}
-
-    
-</ul>
-<input type="submit" value = "Submit" class = 'btn btn-primary'>
-</form>
-
-
+<!-- Card -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-3">
+            <form method="post" action="{% url 'result' question.id %}">
+                {% csrf_token %}
+                {% for option in options %}
+                <div class="col-lg-3 col-md-6 wow">
+                    <div class="service-item d-flex flex-column bg-light p-3 pb-0">
+                        <div class="position-relative">
+                            <label for="option{{ option.id }}">
+                                <img class="img-fluid" src="" alt="{{ option.option }}">
+                                <input id="option{{ option.id }}" class="form-check-input visually-hidden" type="radio" name="choice" value="{{ option.id }}" aria-label="...">
+                            </label>
+                        </div>
+                        <p>{{ option.option }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="col-12 mt-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Card -->
 
 {% endblock %}
